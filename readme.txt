@@ -16,6 +16,7 @@ access to materials of a specific type (posts, pages, custom post types) when
 user access level lower then material access level.
 
 Also this plugin creates a new capabilities:
+
 1. dal_admin - capability to change plugin settings
 2. dal_edit - capability to change user access level
 
