@@ -9,6 +9,7 @@
  * Create plugin menu items.
  */ 
 function dal_menu_items() {
+    
     $page = add_submenu_page(
         'tools.php'
         , __( 'DAL settings', 'dal-plugin' )
@@ -19,7 +20,10 @@ function dal_menu_items() {
     );
     
     add_action( 'admin_print_scripts-' . $page, 'dal_inc_admin_jscripts' );
+    
 }
+
+add_action( 'admin_menu', 'dal_menu_items' );
 
 /**
  * Add jscripts for settings page.
@@ -43,61 +47,96 @@ function dal_create_settings_page() {
     
     // Get plugin settings
     $settings = dal_get_settings();
-
+    $guest_access_level = ( ! empty($settings['dal_guest_access_level']) ? (int)$settings['dal_guest_access_level']: 0 );
+    
     ?>
+
     <div class="wrap">
-        <form action="<?php echo $_SERVER["REQUEST_URI"]; ?>" method="post">
-            <h2><?php _e( 'Data access levels. General settings.', 'dal-plugin' ) ?></h2>
+        <h2><?php _e( 'Data access levels. General settings.', 'dal-plugin' ) ?></h2>
+
+        <form method="post" action="options.php">
+            <?php settings_fields( 'dal-settings-group' ); ?>
             <?php 
             if ( ! empty($_REQUEST['error']) ): 
                 ?>
                 <p style="color: red"><?php _e( 'Form contain bad data.', 'dal-plugin' ) ?></p>
                 <?php 
             endif; ?>
-            <p>			
-                <label><?php _e( 'Select post types to activate access level restrictions for them.', 'dal-plugin' ) ?></label><br />                
-                <select multiple="multiple" name="dal_post_types[]">
-                    <?php
-                    foreach ( $post_types as $type ) {
-                        ?>
-                        <option value="<?php echo $type ?>" <?php if (  in_array( $type, $dal_post_types ) ) { ?> selected="selected" <?php } ?>  ><?php echo $type ?></option>
-                        <?php
-                    }
-                    ?>
-                </select>
-            </p>			
-            <div>			
-                <input type="checkbox" name="dal_post_column" id="dal_post_column" value="1" <?php if ( ! empty( $settings['dal_post_column'] ) ) echo 'checked="checked"'; ?> />                
-                &nbsp;&nbsp;<label><?php _e( 'Allow column "Access levels" on manage posts page.', 'dal-plugin' ) ?></label>
-                <div id="dal_post_column_hidden">
-                    <input type="checkbox" name="dal_post_column_sort" value="1" <?php if ( ! empty( $settings['dal_post_column_sort'] ) ) echo 'checked="checked"'; ?> />                
-                    &nbsp;&nbsp;<label><?php _e( 'Sort by column.', 'dal-plugin' ) ?></label><br />
-                </div>
-            </div>
-            <br />
-            <div>	                
-                <input type="checkbox" name="dal_user_column" id="dal_user_column" value="1" <?php if ( ! empty( $settings['dal_user_column'] ) ) echo 'checked="checked"'; ?> />                
-                &nbsp;&nbsp;<label><?php _e( 'Allow column "Access level" on manage users page.', 'dal-plugin' ) ?></label>                
-                <div id="dal_user_column_hidden">
-                    <input type="checkbox" name="dal_user_column_sort" value="1" <?php if ( ! empty( $settings['dal_user_column_sort'] ) ) echo 'checked="checked"'; ?> />                
-                    &nbsp;&nbsp;<label><?php _e( 'Sort by column.', 'dal-plugin' ) ?></label><br />
-                </div>
-            </div>
-            <br />
-            <div>	                
-                <input type="checkbox" name="dal_admin_restriction" id="dal_admin_restriction" value="1" <?php if ( ! empty( $settings['dal_admin_restriction'] ) ) echo 'checked="checked"'; ?> />                
-                &nbsp;&nbsp;<label><?php _e( 'Should we apply restrictions in admin console?', 'dal-plugin' ) ?></label><br />
-            </div><label>            
-            <p class="submit">
-                <input type="submit" name="submit_button" value="<?php _e( 'Update', 'dal-plugin' ) ?>" /> 			
-            </p>
+            <table class="form-table">
+                <tr valign="top">                    
+                    <th scope="row"><?php _e('Post types', 'dal-plugin'); ?></th>
+                    <td>
+                        <fieldset><legend class="screen-reader-text"><span></span></legend><label>
+                            <select multiple="multiple" name="dal_post_types[]">
+                                <?php
+                                foreach ( $post_types as $type ) {
+                                    ?>
+                                    <option value="<?php echo esc_attr($type); ?>" <?php if (  in_array( $type, $dal_post_types ) ) { ?> selected="selected" <?php } ?>  ><?php echo $type ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                            <p class="description"><?php _e( 'Select post types to activate access level restrictions for them.', 'dal-plugin' ) ?></p>
+                            </label>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">                    
+                    <th scope="row"><?php _e('Extra columns', 'dal-plugin'); ?></th>
+                    <td>
+                        <fieldset><legend class="screen-reader-text"><span><?php _e( 'Select post types to activate access level restrictions for them.', 'dal-plugin' ) ?></span></legend>
+                            <div>			
+                                <input type="checkbox" name="dal_post_column" id="dal_post_column" value="1" <?php if ( ! empty( $settings['dal_post_column'] ) ) echo 'checked="checked"'; ?> />                
+                                &nbsp;&nbsp;<label><?php _e( 'Allow column "Access levels" on manage posts page.', 'dal-plugin' ) ?></label>
+                                <div id="dal_post_column_hidden">
+                                    <input type="checkbox" name="dal_post_column_sort" value="1" <?php if ( ! empty( $settings['dal_post_column_sort'] ) ) echo 'checked="checked"'; ?> />                
+                                    &nbsp;&nbsp;<label><?php _e( 'Sort by column.', 'dal-plugin' ) ?></label><br /><p class="description"><?php _e( 'Attention! When sorting of data in table only posts where "access level" is assigned will be included.', 'dal-plugin' ) ?></p>
+                                </div>
+                            </div>
+                            <br />
+                            <div>	                
+                                <input type="checkbox" name="dal_user_column" id="dal_user_column" value="1" <?php if ( ! empty( $settings['dal_user_column'] ) ) echo 'checked="checked"'; ?> />                
+                                &nbsp;&nbsp;<label><?php _e( 'Allow column "Access level" on manage users page.', 'dal-plugin' ) ?></label>                
+                                <div id="dal_user_column_hidden">
+                                    <input type="checkbox" name="dal_user_column_sort" value="1" <?php if ( ! empty( $settings['dal_user_column_sort'] ) ) echo 'checked="checked"'; ?> />                
+                                    &nbsp;&nbsp;<label><?php _e( 'Sort by column.', 'dal-plugin' ) ?></label><br /><p class="description"><?php _e( 'Attention! When sorting of data in table only users where "access level" is assigned will be included.', 'dal-plugin' ) ?></p>
+                                </div>
+                            </div>
+                           
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">                    
+                    <th scope="row"><?php _e('Restrictions in admin panel', 'dal-plugin'); ?></th>
+                    <td>
+                        <fieldset><legend class="screen-reader-text"><span><?php _e( 'Select post types to activate access level restrictions for them.', 'dal-plugin' ) ?></span></legend><label for="users_can_register">
+                            <input type="checkbox" name="dal_admin_restriction" id="dal_admin_restriction" value="1" <?php if ( ! empty( $settings['dal_admin_restriction'] ) ) echo 'checked="checked"'; ?> />   
+                            <?php _e( 'Should we apply restrictions in admin console?', 'dal-plugin' ) ?></label>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr valign="top">                    
+                    <th scope="row"><?php _e('Guest access level', 'dal-plugin'); ?></th>
+                    <td>
+                        <label>
+                            <select name="dal_guest_access_level">
+                                <option value="0" <?php selected( $guest_access_level, 0 );?> >0</option>
+                                <option value="1" <?php selected( $guest_access_level, 1 );?> >1</option>
+                            </select>  
+                            <p class="description"><?php _e( 'Minimum value of Post access level = 1. When Guest access level = 0, guests will lose access to the all restricted post types.', 'dal-plugin' ) ?></p></label>                        
+                    </td>
+                </tr>                
+
+            </table>
             <input type="hidden" name="dal_action" value="dal_update" />
+            <?php submit_button(); ?>
+
         </form>
     </div>
+
     <?php
 }
 
-add_action( 'admin_menu', 'dal_menu_items' );
 
 /**
  * Form data processing.
@@ -141,7 +180,8 @@ function dal_settings_update() {
             'dal_post_column_sort',
             'dal_user_column',
             'dal_user_column_sort',
-            'dal_admin_restriction'
+            'dal_admin_restriction',
+            'dal_guest_access_level'
         );
         
         // Define array for plugin settings.

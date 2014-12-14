@@ -3,7 +3,7 @@
 Plugin Name: Data access levels
 Plugin URI: https://github.com/lienann/DAL
 Description: Plugin introduce new materials and users property named ACCESS LEVEL and allow limit access to materials when user access level lower then material access level.
-Version: 1.0
+Version: 1.1.0
 Author: lienann
 */
 

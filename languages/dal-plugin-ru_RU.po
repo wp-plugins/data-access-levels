@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: DAL\n"
-"POT-Creation-Date: 2014-03-17 14:45+0300\n"
-"PO-Revision-Date: 2014-03-17 14:48+0300\n"
-"Last-Translator: liena <lienann@yandex.ru>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-13 23:47+0300\n"
+"PO-Revision-Date: 2014-12-13 23:48+0300\n"
+"Last-Translator: lienann <lienann@yandex.ru>\n"
 "Language-Team:  <lienann@yandex.ru>\n"
 "Language: Russian\n"
 "MIME-Version: 1.0\n"
@@ -12,57 +13,11 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ../lib\n"
 "X-Poedit-SearchPath-2: ..\n"
-
-#: ../lib/restrictions.php:93
-msgid "You are not allowed to access this part of the site"
-msgstr "У Вас нет доступа к этому разделу сайта."
-
-#: ../lib/dal_settings.php:14 ../lib/dal_settings.php:15
-msgid "DAL settings"
-msgstr "DAL настройки"
-
-#: ../lib/dal_settings.php:50
-msgid "Data access levels. General settings."
-msgstr "Уровни доступа к материалам. Основные настройки."
-
-#: ../lib/dal_settings.php:54
-msgid "Form contain bad data."
-msgstr "Данные введены некорректно"
-
-#: ../lib/dal_settings.php:58
-msgid "Select post types to activate access level restrictions for them."
-msgstr ""
-"Список типов записей, на которые будет распространяться ограничение по "
-"уровням."
-
-#: ../lib/dal_settings.php:71
-msgid "Allow column \"Access levels\" on manage posts page."
-msgstr ""
-"Отображать столбец \"Уровень доступа\" на странице администрирования записей?"
-
-#: ../lib/dal_settings.php:74 ../lib/dal_settings.php:83
-msgid "Sort by column."
-msgstr "Включить сортировку по столбцу?"
-
-#: ../lib/dal_settings.php:80
-msgid "Allow column \"Access level\" on manage users page."
-msgstr ""
-"Отображать столбец \"Уровень доступа\" на странице администрирования "
-"пользователей?"
-
-#: ../lib/dal_settings.php:89
-msgid "Should we apply restrictions in admin console?"
-msgstr "Применить ограничения в админке?"
-
-#: ../lib/dal_settings.php:92
-msgid "Update"
-msgstr "Обновить"
 
 #: ../lib/postfileds.php:17
 msgid "Post access level"
@@ -72,18 +27,90 @@ msgstr "Уровень доступа к материалу"
 msgid "Please, select access level:"
 msgstr "Пожалуйста, укажите уровень доступа:"
 
-#: ../lib/postfileds.php:101 ../lib/userfileds.php:73
+#: ../lib/postfileds.php:101
+#: ../lib/userfileds.php:74
 msgid "Access level"
 msgstr "Уровень доступа"
 
-#: ../lib/userfileds.php:19
+#: ../lib/restrictions.php:92
+msgid "You are not allowed to access this part of the site"
+msgstr "У Вас нет доступа к этому разделу сайта."
+
+#: ../lib/userfileds.php:20
 msgid "Data access by level"
 msgstr "Доступ к материалам"
 
-#: ../lib/userfileds.php:22
+#: ../lib/userfileds.php:23
 msgid "User access level"
 msgstr "уровень доступа пользователя"
 
-#: ../lib/userfileds.php:36
+#: ../lib/userfileds.php:37
 msgid "Please, select access level."
 msgstr "Пожалуйста, укажите уровень доступа."
+
+#: ../lib/dal_settings.php:15
+#: ../lib/dal_settings.php:16
+msgid "DAL settings"
+msgstr "DAL настройки"
+
+#: ../lib/dal_settings.php:55
+msgid "Data access levels. General settings."
+msgstr "Уровни доступа к материалам. Основные настройки."
+
+#: ../lib/dal_settings.php:62
+msgid "Form contain bad data."
+msgstr "Данные введены некорректно"
+
+#: ../lib/dal_settings.php:67
+msgid "Post types"
+msgstr "Типы записей"
+
+#: ../lib/dal_settings.php:79
+#: ../lib/dal_settings.php:87
+#: ../lib/dal_settings.php:112
+msgid "Select post types to activate access level restrictions for them."
+msgstr "Список типов записей, на которые будет распространяться ограничение по уровням."
+
+#: ../lib/dal_settings.php:85
+msgid "Extra columns"
+msgstr "Дополнительные столбцы"
+
+#: ../lib/dal_settings.php:90
+msgid "Allow column \"Access levels\" on manage posts page."
+msgstr "Отображать столбец \"Уровень доступа\" на странице администрирования записей?"
+
+#: ../lib/dal_settings.php:93
+#: ../lib/dal_settings.php:102
+msgid "Sort by column."
+msgstr "Включить сортировку по столбцу?"
+
+#: ../lib/dal_settings.php:93
+msgid "Attention! When sorting of data in table only posts where \"access level\" is assigned will be included."
+msgstr "Внимание! При сортировке по столбцу в таблице остаются только те записи, для которых указан уровень доступа."
+
+#: ../lib/dal_settings.php:99
+msgid "Allow column \"Access level\" on manage users page."
+msgstr "Отображать столбец \"Уровень доступа\" на странице администрирования пользователей?"
+
+#: ../lib/dal_settings.php:102
+msgid "Attention! When sorting of data in table only users where \"access level\" is assigned will be included."
+msgstr "Внимание! При сортировке по столбцу в таблице остаются записи только о тех пользователях, для которых указан уровень доступа."
+
+#: ../lib/dal_settings.php:110
+msgid "Restrictions in admin panel"
+msgstr "Ограничения в панели администратора"
+
+#: ../lib/dal_settings.php:114
+msgid "Should we apply restrictions in admin console?"
+msgstr "Применить ограничения в админке?"
+
+#: ../lib/dal_settings.php:119
+msgid "Guest access level"
+msgstr "Уровень доступа гостя"
+
+#: ../lib/dal_settings.php:126
+msgid "Minimum value of Post access level = 1. When Guest access level = 0, guests will lose access to the all restricted post types."
+msgstr "Минимально возможный уровень доступа к записям = 1. Если установить уровнь доступа гостя = 0, неавторизованные пользователи потеряют доступ ко всем типсм записей, на которые распространяются ограничения."
+
+#~ msgid "Update"
+#~ msgstr "Обновить"

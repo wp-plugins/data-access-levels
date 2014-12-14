@@ -7,7 +7,6 @@
  */
 function dal_get_post_types( $builtin = false ) {
 
-#   $args       =  array( 'public' => true, '_builtin' => $builtin  ); 
     $args = array( 'public' => true  ); 
 
     if ( $builtin === true ) {
@@ -89,7 +88,11 @@ function dal_get_post_level( $post_id = 0 ) {
  * @return mixed user access level.
  */
 function dal_get_user_level( $user_id = 0 ) {
-   
+    
+    if ( ! is_user_logged_in() ){
+        return dal_get_guest_access_level();
+    }
+    
     $user_level = get_user_meta( $user_id, 'dal_userlevel', TRUE );
     if ( ! empty($user_level) ) {
         return $user_level;
@@ -97,4 +100,20 @@ function dal_get_user_level( $user_id = 0 ) {
 
     return DAL_MIN_USER_LEVEL;
 
+}
+
+
+/**
+ * Get guest user access level.
+ * @return integer access level.
+ */
+function dal_get_guest_access_level() {
+    
+    $dal_settings = dal_get_settings();
+    if ( ! empty($dal_settings['dal_guest_access_level']) && $dal_settings['dal_guest_access_level']== '1' ) {
+        return 1;
+    }
+
+    return DAL_MIN_USER_LEVEL;
+    
 }

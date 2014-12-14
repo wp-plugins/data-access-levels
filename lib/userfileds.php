@@ -11,9 +11,10 @@ function dal_show_user_fields($user) {
         return;
     }   
 
-    // Get user access level.
-   
+    // Get user access level.   
     $user_level = dal_get_user_level($user->ID);
+    // Minimum user access level = guest access level.
+    $min_user_level = dal_get_guest_access_level();
 
 ?>
     <h3><?php _e( 'Data access by level', 'dal-plugin' ) ?></h3>
@@ -23,7 +24,7 @@ function dal_show_user_fields($user) {
             <td>
                 <select name="dal_userlevel" id="dal_userlevel">
                     <?php     
-                       for ( $i = DAL_MIN_ACCESS_LEVEL; $i <= DAL_MAX_ACCESS_LEVEL; $i++ ) {
+                       for ( $i = $min_user_level; $i <= DAL_MAX_ACCESS_LEVEL; $i++ ) {
                           if ( $user_level == $i ) {
                               echo '<option value="'.$i.'" selected="selected">'.$i.'</option>';
                           }
@@ -55,7 +56,7 @@ function dal_save_user_fields($user_id) {
         return;
     }    
 
-    $request_level = (int) htmlspecialchars($_POST['dal_userlevel'], ENT_QUOTES);
+    $request_level = (int) $_POST['dal_userlevel'];
     
     update_user_meta($user_id, 'dal_userlevel', $request_level);
 
