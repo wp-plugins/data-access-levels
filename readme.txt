@@ -2,8 +2,8 @@
 Contributors: lienann 
 Tags: access, level, restriction, permissions
 Requires at least: 3.0
-Tested up to: 4.0.1
-Stable tag: 1.1.0
+Tested up to: 4.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ English and to correction of my mistakes.
 3. Go to the Tools -> DAL settings
 
 == Changelog ==
+
+= 1.1.1 =
+* Fixed bug where default values are set every time at the activation
 
 = 1.1.0 =
 * Updated plugin settings page

@@ -3,7 +3,7 @@
 Plugin Name: Data access levels
 Plugin URI: https://github.com/lienann/DAL
 Description: Plugin introduce new materials and users property named ACCESS LEVEL and allow limit access to materials when user access level lower then material access level.
-Version: 1.1.0
+Version: 1.1.1
 Author: lienann
 */
 
@@ -51,7 +51,7 @@ define('DAL_MIN_USER_LEVEL', 0);
  */
 
 /**
- * data_access_levels_install() - define default plugin settings values.
+ * data_access_levels_activation() - define default plugin settings values.
  */
  
 register_activation_hook(__FILE__,'data_access_levels_activation');
@@ -60,24 +60,46 @@ function data_access_levels_activation() {
    
     // Specify the initial settings plugin.
     
-    // The post type that will be subject to restrictions by default.
-    $post_type_default = array(DAL_POST_TYPE_DEFAULT);
-    update_option( 'dal_post_types', serialize($post_type_default) );
+    $dal_plugin_version = get_option('dal_plugin_version');
     
-    // Add status display "Access level" column in data and user controls.
-    $dal_settings = array();
-    $dal_settings['dal_post_column'] = 1;
-    $dal_settings['dal_user_column'] = 1;
-    update_option( 'dal_settings', serialize($dal_settings) );
+    if ( empty($dal_plugin_version) ) {
+        
+        // The post type that will be subject to restrictions by default.
+        $post_type_default = array(DAL_POST_TYPE_DEFAULT);
+        update_option( 'dal_post_types', serialize($post_type_default) );
 
-    
-    // Set maximum access level for administrator role.
-    $admins = get_users('role=administrator');    
-    foreach ($admins as $admin) {
-        update_user_meta($admin->ID, 'dal_userlevel', DAL_MAX_ACCESS_LEVEL);        
+        // Add status display "Access level" column in data and user controls.
+        $dal_settings = array();
+        $dal_settings['dal_post_column'] = 1;
+        $dal_settings['dal_user_column'] = 1;
+        update_option( 'dal_settings', serialize($dal_settings) );
+
+        // Set maximum access level for administrator role.
+        $admins = get_users('role=administrator');    
+        foreach ($admins as $admin) {
+            update_user_meta($admin->ID, 'dal_userlevel', DAL_MAX_ACCESS_LEVEL);        
+        }           
+        
     }    
+    update_option( 'dal_plugin_version', '1.1' );
     
 }
+
+/**
+ * Set option with plugin version. At the activation using 'dal_plugin_version' 
+ * to avoid reset plugin options.
+ */
+function dal_loaded() {
+    
+    $dal_plugin_version = get_option('dal_plugin_version');
+    
+    if ( is_admin() && empty($dal_plugin_version) ) {
+        update_option( 'dal_plugin_version', '1.1' );
+    }
+    
+}
+add_action( 'plugins_loaded', 'dal_loaded' );
+
 
 /**
  * Load translated strings.
